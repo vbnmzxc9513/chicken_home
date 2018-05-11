@@ -16,9 +16,10 @@ class Client:
 
     def sendThreadFunc(self):
         global name
-        time_str = datetime.datetime.now()
+        
         while True:
             try:
+                time_str = datetime.datetime.now()
                 myword =  name +":" + input() +"   "+str(time_str.hour)+":"+str(time_str.minute)+":"+str(time_str.second)
                 self.sock.send(myword.encode())
             except ConnectionAbortedError:
