@@ -9,6 +9,7 @@ class Client:
         print("Welcome to chat room!") #by Wei
         print('Input your name:')#chenda
         name = input()
+        print ("Chats, Lets Welcome " + str(name)+" join us !!")#by chenpo
         self.sock.send(b'1')
         self.sock.send(name.encode())
 
