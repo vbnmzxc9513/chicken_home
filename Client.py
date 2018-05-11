@@ -6,7 +6,10 @@ class Client:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock = sock
         self.sock.connect((host, port))
+        print('Input your name:')#chenda
+        name = input()
         self.sock.send(b'1')
+        self.sock.send(name.encode())
 
     def sendThreadFunc(self):
         print("Welcome to chat room!") #by Wei
