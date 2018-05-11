@@ -3,7 +3,7 @@ import socket
 import threading
 from time import gmtime, strftime
 global count
-
+global id
 class Server:
     def __init__(self, host, port):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -19,6 +19,7 @@ class Server:
         count += 1
         print(count)
         print('Accept a new connection', connection.getsockname(), connection.fileno())
+
 
         try:
             buf = connection.recv(1024).decode()
@@ -44,14 +45,21 @@ class Server:
                 except:
                     pass
 
+
     def subThreadIn(self, myconnection, connNumber):
         global count
+        global id
         self.mylist.append(myconnection)
+
         while True:
             try:
                 recvedMsg = myconnection.recv(1024).decode()
                 if recvedMsg:
-                    self.tellOthers(connNumber, recvedMsg)
+                    if ':' not in recvedMsg:
+                        id.append(recvedMsg)
+                        self.tellOthers(connNumber, "System:  "+ str(recvedMsg) + "in the chat room.")
+                    else:
+                        self.tellOthers(connNumber, recvedMsg)
                 else:
                     pass
 
@@ -73,6 +81,8 @@ class Server:
 def main():
     s = Server('140.138.145.9', 5550)#by Ping
     global count
+    global id
+    id = dict()
     count = 0
     while True:
         s.checkConnection()
