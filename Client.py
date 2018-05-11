@@ -38,7 +38,6 @@ def main():
     for t in threads:
         t.setDaemon(True)
         t.start()
-    print(t.join())
     t.join()
 
 
