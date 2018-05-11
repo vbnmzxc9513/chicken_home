@@ -1,22 +1,25 @@
 import socket
 import threading
-
+import datetime
 class Client:
     def __init__(self, host, port):
+        global name
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock = sock
         self.sock.connect((host, port))
         print("Welcome to chat room!") #by Wei
-        print('Input your name:')#by chenda
+        print('Input your name:')#chenda
         name = input()
         print ("Chats, Lets Welcome " + str(name)+" join us !!")#by chenpo
         self.sock.send(b'1')
         self.sock.send(name.encode())
 
     def sendThreadFunc(self):
+        global name
+        time_str = datetime.datetime.now()
         while True:
             try:
-                myword = input()
+                myword =  name +":" + input() +"   "+str(time_str.hour)+":"+str(time_str.minute)+":"+str(time_str.second)
                 self.sock.send(myword.encode())
             except ConnectionAbortedError:
                 print('Server closed this connection!')
@@ -35,7 +38,8 @@ class Client:
                 print('Server is closed!')
 
 def main():
-    c = Client('localhost', 5550)
+    global name
+    c = Client('140.138.145.9', 5550)
     th1 = threading.Thread(target=c.sendThreadFunc)
     th2 = threading.Thread(target=c.recvThreadFunc)
     threads = [th1, th2]
