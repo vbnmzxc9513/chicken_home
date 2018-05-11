@@ -61,7 +61,7 @@ class Server:
 
 
 def main():
-    s = Server('localhost', 5550)
+    s = Server('140.138.145.9', 5550) #by Ping
     while True:
         s.checkConnection()
 
