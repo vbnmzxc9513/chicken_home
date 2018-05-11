@@ -9,6 +9,7 @@ class Client:
         self.sock.send(b'1')
 
     def sendThreadFunc(self):
+        print("Welcome to chat room!") #by Wei
         while True:
             try:
                 myword = input()
