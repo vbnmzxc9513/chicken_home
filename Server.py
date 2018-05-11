@@ -2,7 +2,7 @@
 import socket
 import threading
 from time import gmtime, strftime
-
+global count
 
 class Server:
     def __init__(self, host, port):
@@ -14,7 +14,10 @@ class Server:
         self.mylist = list()
 
     def checkConnection(self):
+        global count
         connection, addr = self.sock.accept()
+        count += 1
+        print(count)
         print('Accept a new connection', connection.getsockname(), connection.fileno())
 
         try:
@@ -24,6 +27,7 @@ class Server:
                 mythread = threading.Thread(target=self.subThreadIn, args=(connection, connection.fileno()))
                 mythread.setDaemon(True)
                 mythread.start()
+
 
             else:
                 connection.send(b'please go out!')
@@ -41,6 +45,7 @@ class Server:
                     pass
 
     def subThreadIn(self, myconnection, connNumber):
+        global count
         self.mylist.append(myconnection)
         while True:
             try:
@@ -51,8 +56,13 @@ class Server:
                     pass
 
             except (OSError, ConnectionResetError):
+                count -= 1
+                self.tellOthers(connNumber, "New chat room people number " + str(count))
+                print(count)
+                print("Someone leave! Chat room")
                 try:
                     self.mylist.remove(myconnection)
+
                 except:
                     pass
 
@@ -61,7 +71,9 @@ class Server:
 
 
 def main():
-    s = Server('140.138.145.9', 5550) #by Ping
+    s = Server('140.138.145.9', 5550)#by Ping
+    global count
+    count = 0
     while True:
         s.checkConnection()
 
