@@ -7,7 +7,7 @@ class Client:
         self.sock = sock
         self.sock.connect((host, port))
         print("Welcome to chat room!") #by Wei
-        print('Input your name:')#chenda
+        print('Input your name:')#by chenda
         name = input()
         print ("Chats, Lets Welcome " + str(name)+" join us !!")#by chenpo
         self.sock.send(b'1')
